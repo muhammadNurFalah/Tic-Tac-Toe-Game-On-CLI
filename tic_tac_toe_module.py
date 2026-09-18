@@ -1,5 +1,5 @@
-#Tic Tac Toe Function
-
+#file name "tic_tac_toe_module.py"
+#I'm still need to improve this code, currently, it only has 3 X 3 box size. So if you not choosing the 3 X 3, then it will be an error
 class TicTacToe:
     
     def __init__(self, version: str) -> None:
