@@ -136,8 +136,8 @@ class TicTacToe:
         
         
     def determine_the_coordinate(self) -> None:
-        all_x_coordinate: tuple[*str] = ("A", "B", "C", "D", "E", "F", "G", "H", "I")
-        all_y_coordinate: tuple[*str] = ("1", "2", "3", "4", "5", "6", "7", "8", "9")
+        all_x_coordinate: tuple[str, ...] = ("A", "B", "C", "D", "E", "F", "G", "H", "I")
+        all_y_coordinate: tuple[str, ...] = ("1", "2", "3", "4", "5", "6", "7", "8", "9")
     
         match self.box_size:
             case "3 X 3":
