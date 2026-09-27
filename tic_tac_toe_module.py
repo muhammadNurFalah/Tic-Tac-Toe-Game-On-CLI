@@ -1,4 +1,3 @@
-#File name: tic_tac_toe_module
 #Tic Tac Toe Function
 
 class TicTacToe:
@@ -9,7 +8,9 @@ class TicTacToe:
         self.box: list[str] = []
         self.x_box_coordinate: list[str] = []
         self.y_box_coordinate: list[str] = []
+        
         self.is_playing: bool = True
+        self.is_a_tie: bool = False
         
         
     def define_the_box_size(self) -> None:
@@ -227,7 +228,7 @@ class TicTacToe:
         difference: int = side_length - 3 + 1    #"3" is taken from 3 X 3, so it always subtract with 3. +1 is to prevent 0
         
         """So, the for loop below is to check is the there any winning move in tic tac toe game.
-        Why do we need for loop? so if i'm not using for loop then it will took 81 if-else if statement.
+        Why do we need for loop? so if i'm not using for loop then it will took 288 if-else if statement.
         So, my solution is to check by 3 X 3 first then if there is no winning move in the first 3 X 3,
         move to one side to the right until the end, if there is still no winning condition then move by one side down.
         Repeat it until it found the winning solution, if founded then stop the game"""
@@ -285,10 +286,16 @@ class TicTacToe:
                     #Then...
                     self.is_playing = False
                 
+    def check_if_all_the_box_filled(self, selected_move: list[str]) -> None:
+        box_area: int = int(self.box_size[0]) ** 2
+        
+        if len(selected_move) == box_area:
+            self.is_a_tie = True
+            self.is_playing = False
         
     def start_the_game(self) -> None:
         already_selected_move: list[str] = [] #This list is for the already selected move, so it will prevent both player to select the same move
-        self.determine_the_coordinate() #Determine the coordinate that used based on the size!
+        self.determine_the_coordinate() #Determine the coordinate that based on the size!
         
         for column in self.box: #This for loop is to display the empty tic tac toe box for the first time
             print(column)
@@ -318,10 +325,17 @@ class TicTacToe:
                     already_selected_move.append(player_move) #Add the selected move, so the player won't choice the same move again!
                     
                     self.game_validation() #Calling this method to make some validation between "X" or "O" that already filled in the box.
-                                           #So we could know who is the winner!                                            
+                                           #So we could know who is the winner!
                     
-                    if not self.is_playing: #So, inside the game_validation method, if it's valid then self.is_playing will be "False"
-                        print(F"Player {player} as \"{play_as}\" wins the game, congratulations!") #If "False" end the game will ended!
+                    self.check_if_all_the_box_filled(already_selected_move)#Check if there are still valid move left,
+                                                                           #if all of the box is filled without any winner, then stop the game!
+                    
+                    if (self.is_a_tie is False and self.is_playing is False): #So, inside the game_validation method, if it's valid, found the winner and it's not tie
+                        print(F"Player {player} as \"{play_as}\" wins the game, congratulations!") #Then self.is_playing will be "False" if "False" end the game will ended!
+                        return
+                    
+                    elif (self.is_a_tie is True and self.is_playing is False): #If there is no more legal move in the box, using check_if_all_the_box_filled function,
+                        print("It's a tie!")                                   #it will make the is_playing = False and is_a_tie = True which stop the game without any winner
                         return
                     
                     else:
